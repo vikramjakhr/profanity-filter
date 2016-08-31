@@ -11,9 +11,12 @@ import (
 )
 
 var (
-	BlankRegexp = regexp.MustCompile("([\\[$&,:;=?#|'<>.^*\\(\\)%\\]])|(\\b\\d+\\b)|(cum\u0020laude)|(he\\'ll)|(\\B\\#)|(&\\#?[a-z0-9]{2,8};)|(\\b\\'+)|(\\'+\\b)|(\\b\\\")|(\\\"\\b)|(dick\u0020cheney)|(\\!+\\B)") // BlankRegexp contains pattern that will be replaced with blank character.
-	URepeatRegexp = regexp.MustCompile("u+") // URepeatRegexp contains regex for continuous occurrence of u.
-	IRepeatRegexp = regexp.MustCompile("i+") // IRepeatRegexp contains regex for continuous occurrence of i.
+	// BlankRegexp contains pattern that will be replaced with blank character.
+	BlankRegexp = regexp.MustCompile("([\\[$&,:;=?#|'<>.^*\\(\\)%\\]])|(\\b\\d+\\b)|(cum\u0020laude)|(he\\'ll)|(\\B\\#)|(&\\#?[a-z0-9]{2,8};)|(\\b\\'+)|(\\'+\\b)|(\\b\\\")|(\\\"\\b)|(dick\u0020cheney)|(\\!+\\B)")
+	// URepeatRegexp contains regex for continuous occurrence of u.
+	URepeatRegexp = regexp.MustCompile("u+")
+	// IRepeatRegexp contains regex for continuous occurrence of i.
+	IRepeatRegexp = regexp.MustCompile("i+")
 )
 
 // wordsMap is the map containing profane words as map key.
