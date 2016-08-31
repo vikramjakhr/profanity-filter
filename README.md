@@ -1,2 +1,2 @@
-# purifier
+# profanity-filter
 profanity filter
