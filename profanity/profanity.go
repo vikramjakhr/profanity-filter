@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-const (
+var (
 	BlankRegexp = regexp.MustCompile("([\\[$&,:;=?#|'<>.^*\\(\\)%\\]])|(\\b\\d+\\b)|(cum\u0020laude)|(he\\'ll)|(\\B\\#)|(&\\#?[a-z0-9]{2,8};)|(\\b\\'+)|(\\'+\\b)|(\\b\\\")|(\\\"\\b)|(dick\u0020cheney)|(\\!+\\B)")
 	URepeatRegexp = regexp.MustCompile("u+")
 	IRepeatRegexp = regexp.MustCompile("i+")
@@ -29,9 +29,7 @@ func Find(txt string) Profanity {
 	channel := make(chan string)
 	var wg sync.WaitGroup
 	found := []string{}
-	b, err := ioutil.ReadAll(txt)
-	filterdText := filterUsingRegex(string(b))
-	checkErr(err)
+	filterdText := filterUsingRegex(txt)
 	words := strings.Split(filterdText, " ")
 	wg.Add(len(words))
 	go func() {
