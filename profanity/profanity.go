@@ -1,3 +1,5 @@
+// Package profanity provides basic types and functions for profanity check.
+// Its primary job is to filter profanity from text with high level of concurrency.
 package profanity
 
 import (
@@ -9,22 +11,27 @@ import (
 )
 
 var (
-	BlankRegexp = regexp.MustCompile("([\\[$&,:;=?#|'<>.^*\\(\\)%\\]])|(\\b\\d+\\b)|(cum\u0020laude)|(he\\'ll)|(\\B\\#)|(&\\#?[a-z0-9]{2,8};)|(\\b\\'+)|(\\'+\\b)|(\\b\\\")|(\\\"\\b)|(dick\u0020cheney)|(\\!+\\B)")
-	URepeatRegexp = regexp.MustCompile("u+")
-	IRepeatRegexp = regexp.MustCompile("i+")
+	BlankRegexp = regexp.MustCompile("([\\[$&,:;=?#|'<>.^*\\(\\)%\\]])|(\\b\\d+\\b)|(cum\u0020laude)|(he\\'ll)|(\\B\\#)|(&\\#?[a-z0-9]{2,8};)|(\\b\\'+)|(\\'+\\b)|(\\b\\\")|(\\\"\\b)|(dick\u0020cheney)|(\\!+\\B)") // BlankRegexp contains pattern that will be replaced with blank character.
+	URepeatRegexp = regexp.MustCompile("u+") // URepeatRegexp contains regex for continuous occurrence of u.
+	IRepeatRegexp = regexp.MustCompile("i+") // IRepeatRegexp contains regex for continuous occurrence of i.
 )
 
+// wordsMap is the map containing profane words as map key.
 var wordsMap map[string]interface{} = make(map[string]interface{})
 
+// init cache the profane words.
 func init() {
 	cacheAbuses()
 }
 
+// Profanity contains the result of any profanity check.
 type Profanity struct {
 	Total int
 	Found []string
 }
 
+// Find finds the profanity in a text.
+// Find returns Profanity.
 func Find(txt string) Profanity {
 	channel := make(chan string)
 	var wg sync.WaitGroup
@@ -53,10 +60,14 @@ func Find(txt string) Profanity {
 	return Profanity{Total:len(found), Found:found}
 }
 
+// Check checs for prfanity in a text.
+// Check returns true or false based on profanity in text.
 func Check(txt string) bool {
 	return Find(txt).Total > 0
 }
 
+// filterUsingRegex filters the text using regex and replaces text with appropriate character.
+// filterUsingRegex uses BlankRegexp, URepeatRegexp and IRepeatRegexp to find a text match.
 func filterUsingRegex(text string) string {
 	text = BlankRegexp.ReplaceAllString(text, "")
 	text = URepeatRegexp.ReplaceAllString(text, "u")
@@ -64,10 +75,12 @@ func filterUsingRegex(text string) string {
 	return text
 }
 
+// cacheAbuses cache the data of directory profanity/data into wordsMap.
 func cacheAbuses() {
 	CacheDirContent("profanity/data")
 }
 
+// CacheDirContent cache the data of all files in specified directory into wordsMap.
 func CacheDirContent(dir string) {
 	_, err := os.Stat(dir)
 	if err == nil {
@@ -90,6 +103,7 @@ func CacheDirContent(dir string) {
 	}
 }
 
+// checkErr checks for err.
 func checkErr(e error) {
 	if e != nil {
 		panic(e)
