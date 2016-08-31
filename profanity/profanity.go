@@ -63,7 +63,7 @@ func Find(txt string) Profanity {
 	return Profanity{Total:len(found), Found:found}
 }
 
-// Check checs for prfanity in a text.
+// Check checs for profanity in a text.
 // Check returns true or false based on profanity in text.
 func Check(txt string) bool {
 	return Find(txt).Total > 0
