@@ -1,4 +1,4 @@
-// Package profanity provides basic types and functions for profanity check.
+// Package profanity provides basic functions for checking profanity in a text.
 // Its primary job is to filter profanity from text with high level of concurrency.
 package profanity
 
