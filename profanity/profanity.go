@@ -25,7 +25,7 @@ type Profanity struct {
 	Found []string
 }
 
-func Find(txt string) (Profanity) {
+func Find(txt string) Profanity {
 	channel := make(chan string)
 	var wg sync.WaitGroup
 	found := []string{}
@@ -53,6 +53,10 @@ func Find(txt string) (Profanity) {
 	wg.Wait()
 	close(channel)
 	return Profanity{Total:len(found), Found:found}
+}
+
+func Check(txt string) bool {
+	return Find(txt).Total > 0
 }
 
 func filterUsingRegex(text string) string {
